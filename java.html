@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JaVa</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<style>
+.w3-center {
+  margin-top: 10px;
+  }
+.box {
+  margin-top: -100px;
+}
+body {
+      font-family: Arial, sans-serif;
+    }
+</style>
+
+<body>
+<img src="picture/architect.jpg">
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+  
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="#home" class="w3-bar-item w3-button"><b>CS</b> JaVa</a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="index.html" class="w3-bar-item w3-button">index</a>
+      <a href="java.html" class="w3-bar-item w3-button">java</a>
+      <a href="api.html" class="w3-bar-item w3-button">api</a>
+    </div>
+  </div>
+</div>
+<div class="">
+<canvas id="myChart" style="width:400%;max-width:800px"></canvas>
+<hr>
+</div>
+<h1>ตัดเกรด</h1>
+<label for="inputScore">กรอกคะแนน (0-100):</label>
+<input type="number" id="inputScore" min="0" max="100">
+<button onclick="randomGrade()">สุ่ม</button>
+<p>ผลการตัดเกรด: <span id="grade"></span></p>
+้<hr>
+<h1>คำนวณค่าความเร็ว</h1>
+  
+  <label for="distanceInput">ระยะทาง (เมตร):</label>
+  <input type="number" id="distanceInput">
+  
+  <label for="timeInput">เวลา (วินาที):</label>
+  <input type="number" id="timeInput">
+  
+  <button onclick="calculateSpeed()">คำนวณ</button>
+  
+  <p>ค่าความเร็ว: <span id="speedResult"></span> เมตรต่อวินาที (m/s)</p>
+
+  <script>
+    function calculateSpeed() {
+      var distance = parseFloat(document.getElementById('distanceInput').value);
+      var time = parseFloat(document.getElementById('timeInput').value);
+
+      if (isNaN(distance) || isNaN(time) || distance <= 0 || time <= 0) {
+        alert('โปรดกรอกระยะทางและเวลาให้ถูกต้อง');
+        return;
+      }
+
+      var speed = distance / time;
+      document.getElementById('speedResult').textContent = speed.toFixed(2);
+    }
+  </script>
+  <hr> 
+  <h1>คำนวณค่าเฉลี่ยของตัวเลข</h1>
+  
+  <label for="numbersInput">กรอกตัวเลข (คั่นด้วยเครื่องหมายคอมมา):</label>
+  <input type="text" id="numbersInput">
+  
+  <button onclick="calculateAverage()">คำนวณ</button>
+  
+  <p>ค่าเฉลี่ย: <span id="averageResult"></span></p>
+
+  <script>
+    function calculateAverage() {
+      var numbersInput = document.getElementById('numbersInput').value;
+      var numbersArray = numbersInput.split(',').map(Number);
+
+      if (numbersArray.some(isNaN)) {
+        alert('โปรดกรอกตัวเลขทั้งหมดให้ถูกต้อง');
+        return;
+      }
+
+      var sum = numbersArray.reduce(function(total, num) {
+        return total + num;
+      }, 0);
+
+      var average = sum / numbersArray.length;
+      document.getElementById('averageResult').textContent = average.toFixed(2);
+    }
+  </script>
+  <hr>
+  <h1>คำนวณพลังงานที่เผาผลาญจากการขึ้นบันได</h1>
+  
+  <label for="stairsInput">จำนวนขั้นบันได:</label>
+  <input type="number" id="stairsInput">
+  
+  <button onclick="calculateEnergy()">คำนวณ</button>
+  
+  <p>พลังงานที่เผาผลาญจากการขึ้นบันได: <span id="energyResult"></span> กิโลแคลอรี (kcal)</p>
+
+  <script>
+    function calculateEnergy() {
+      var stairs = parseFloat(document.getElementById('stairsInput').value);
+
+      if (isNaN(stairs) || stairs <= 0) {
+        alert('โปรดกรอกจำนวนขั้นบันไดให้ถูกต้อง');
+        return;
+      }
+
+      var energy = stairs * 0.0033;
+      document.getElementById('energyResult').textContent = energy.toFixed(2);
+    }
+  </script>
+
+<script>
+  const xValues = [50,60,70,80,90,100,110,120,130,140,150];
+  const yValues = [7,8,8,9,9,9,10,11,14,14,15];
+  
+  new Chart("myChart", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,1.0)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: yValues
+      }]
+    },
+    options: {
+      legend: {display: false},
+      scales: {
+        yAxes: [{ticks: {min: 6, max:16}}],
+      }
+    }
+  });
+  </script>
+<hr>
+<script>
+  function randomGrade() {
+      var inputElement = document.getElementById('inputScore');
+      var score = parseInt(inputElement.value);
+
+      if (isNaN(score) || score < 0 || score > 100) {
+        alert('โปรดกรอกคะแนนระหว่าง 0 ถึง 100');
+        return;
+      }
+
+      var grade;
+
+      if (score >= 80) {
+        grade = 'A';
+      } else if (score >= 70) {
+        grade = 'B';
+      } else if (score >= 60) {
+        grade = 'C';
+      } else if (score >= 50) {
+        grade = 'D';
+      } else {
+        grade = 'F';
+      }
+
+      document.getElementById('grade').textContent = `คะแนน: ${score}, เกรด: ${grade}`;
+    }
+</script>
+<h1>คำนวณดัชนีมวลกาย (BMI)</h1>
+  
+  <label for="weightInput">น้ำหนัก (kg):</label>
+  <input type="number" id="weightInput">
+  
+  <label for="heightInput">ส่วนสูง (cm):</label>
+  <input type="number" id="heightInput">
+  
+  <button onclick="calculateBMI()">คำนวณ</button>
+  
+  <p>ดัชนีมวลกาย (BMI): <span id="bmiResult"></span></p>
+  <p>ผลลัพธ์: <span id="bmiCategory"></span></p>
+  <hr>
+  <script>
+    function calculateBMI() {
+      var weight = parseFloat(document.getElementById('weightInput').value);
+      var height = parseFloat(document.getElementById('heightInput').value) / 100; // แปลงเป็นเมตร
+
+      if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+        alert('โปรดกรอกข้อมูลน้ำหนักและส่วนสูงให้ถูกต้อง');
+        return;
+      }
+
+      var bmi = weight / (height * height);
+      document.getElementById('bmiResult').textContent = bmi.toFixed(2);
+
+      if (bmi < 18.5) {
+        document.getElementById('bmiCategory').textContent = 'น้ำหนักน้อยหรือผอม';
+      } else if (bmi >= 18.5 && bmi < 24.9) {
+        document.getElementById('bmiCategory').textContent = 'ปกติ (สุขภาพดี)';
+      } else if (bmi >= 25 && bmi < 29.9) {
+        document.getElementById('bmiCategory').textContent = 'ท้วมหรือน้ำหนักเกิน';
+      } else {
+        document.getElementById('bmiCategory').textContent = 'อ้วนมาก';
+      }
+    }
+  </script>
+
+<!-- End page content -->
+</div>
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
+</body>
+</html>

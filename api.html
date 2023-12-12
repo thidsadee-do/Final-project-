@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>API</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random Dog </title>
+<title>Random Cat </title>
+<title>Random dice</title>
+<title>Random color</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<style>
+  h1 {
+    margin: 50px;
+    margin-bottom: 5px;
+    margin-left: -2px;
+  }
+  .dice {
+      font-size: 3rem;
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      display: inline-block;
+      text-align: center;
+      line-height: 50px;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+  #colorBox {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+    }
+  #outer-grid {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+}
+  #outer-grid > div {
+    background-color: white;
+    color: white;
+    font-size: 4vw;
+    padding: 10px;
+}
+  #inner-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-gap: 5px;
+}
+  #inner-grid > div {
+  background: salmon;
+  padding: 10px;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="#home" class="w3-bar-item w3-button"><b>CS</b> API</a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="index.html" class="w3-bar-item w3-button">index</a>
+      <a href="java.html" class="w3-bar-item w3-button">java</a>
+      <a href="api.html" class="w3-bar-item w3-button">api</a>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+  <h1>Random Dog Image</h1>
+  <button onclick="getRandomDogImage()">Click Random dog</button>
+  <div id="imageContainer">
+    <!-- ภาพจะปรากฏที่นี่ -->
+  </div>
+  <script>
+    function getRandomDogImage() {
+      fetch('https://dog.ceo/api/breeds/image/random')
+        .then(response => response.json())
+        .then(data => {
+          const imageUrl = data.message;
+          const imageContainer = document.getElementById('imageContainer');
+          imageContainer.innerHTML = `<img src="${imageUrl}" alt="Random Dog Image">`;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  </script>
+
+
+<h1></h1>
+<button onclick="getRandomCatImage()">Click Random Cat</button>
+<div class="image-frame1" id="imageContainer">
+  <!-- รูปภาพจะปรากฏที่นี่ -->
+</div>
+<hr>
+
+<script>
+  function getRandomCatImage() {
+    fetch('https://api.thecatapi.com/v1/images/search')
+      .then(response => response.json())
+      .then(data => {
+        const imageUrl = data[0].url;
+        const imageContainer = document.getElementById('imageContainer');
+        imageContainer.innerHTML = `<img src="${imageUrl}" alt="Random Cat Image">`;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+</script>
+<h1>Random dice</h1>
+<div id="dice" class="dice">1</div>
+  <button onclick="rollDice()">Random dice</button>
+  <hr>
+
+  <script>
+    function rollDice() {
+      var dice = document.getElementById('dice');
+      var randomNumber = Math.floor(Math.random() * 6) + 1; // สุ่มตัวเลขระหว่าง 1 ถึง 6
+      dice.textContent = randomNumber; // แสดงค่าลูกเต๋าที่สุ่มได้
+    }
+  </script>
+  <div id="colorBox" style="width: 100px; height: 100px; border: 1px solid black;"></div>
+  <p id="colorName">กำลังรอการสุ่มสี...</p>
+  <button onclick="randomColor()">Random color</button>
+  <hr>
+
+  <script>
+    var colors = [
+      { name: 'แดง', hex: '#FF0000' },
+      { name: 'สีน้ำเงิน', hex: '#0000FF' },
+      { name: 'เขียว', hex: '#00FF00' },
+      { name: 'สีเหลือง', hex: '#FFFF00' },
+      { name: 'ม่วง', hex: '#800080' },
+      // เพิ่มสีอื่น ๆ ตามต้องการ
+    ];
+
+    function randomColor() {
+      var colorBox = document.getElementById('colorBox');
+      var colorName = document.getElementById('colorName');
+      var randomIndex = Math.floor(Math.random() * colors.length);
+      var randomColor = colors[randomIndex];
+
+      colorBox.style.backgroundColor = randomColor.hex;
+      colorName.textContent = 'สี' + randomColor.name;
+    }
+  </script>
+  <h1>เกมทายเลข</h1>
+  <p>ทายเลขตั้งแต่ 1 ถึง 100</p>
+  <input type="text" id="guessField">
+  <button onclick="checkGuess()">ทาย</button>
+  <p id="message"></p>
+้<hr>
+  <script>
+    var secretNumber = Math.floor(Math.random() * 100) + 1; // สุ่มเลขตั้งแต่ 1 ถึง 100
+    var attempts = 0;
+
+    function checkGuess() {
+      var guess = document.getElementById('guessField').value;
+      var message = document.getElementById('message');
+      attempts++;
+
+      if (guess == secretNumber) {
+        message.textContent = 'ยินดีด้วย! คุณทายถูกแล้วในครั้งที่ ' + attempts + ' ครั้ง!';
+      } else if (guess < secretNumber) {
+        message.textContent = 'ลองใหม่! เลขที่คุณทายน้อยเกินไป';
+      } else if (guess > secretNumber) {
+        message.textContent = 'ลองใหม่! เลขที่คุณทายมากเกินไป';
+      }
+    }
+  </script>
+
+  <hr>
+  
+  <h1>Update ราคา crypto</h1>
+   <div id="outer-grid">
+    <!-- <div>TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+    {
+    "symbol"; "COINBASE:ETHUSD",
+    "width"; 650,
+    "height"; 320,
+    "locale"; "en",
+    "dateRange"; "12M",
+    "colorTheme"; "light",
+    "trendLineColor"; "rgba(41, 98, 255, 1)",
+    "underLineColor"; "rgba(41, 98, 255, 0.3)",
+    "underLineBottomColor"; "rgba(41, 98, 255, 0)",
+    "isTransparent"; false,
+    "autosize"; false,
+    "largeChartUrl"; ""
+    }
+    </script>
+    </div>
+    <!-- TradingView Widget END --></div>
+    <div><!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+    {
+    "symbol"; "BINANCE:BTCUSDC",
+    "width"; 650,
+    "height"; 320,
+    "locale"; "en",
+    "dateRange"; "12M",
+    "colorTheme"; "light",
+    "trendLineColor"; "rgba(41, 98, 255, 1)",
+    "underLineColor"; "rgba(41, 98, 255, 0.3)",
+    "underLineBottomColor"; "rgba(41, 98, 255, 0)",
+    "isTransparent"; false,
+    "autosize"; false,
+    "largeChartUrl"; ""
+    }
+    </script>
+
+    </div>
+    <!-- TradingView Widget END -->
+    
+    </div>
+    <!-- TradingView Widget END --></div>
+    <div><!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+
+    {
+    "symbol"; "BINANCE:SHIBUSDT",
+    "width"; 650,
+    "height"; 320,
+    "locale"; "en",
+    "dateRange"; "12M",
+    "colorTheme"; "light",
+    "trendLineColor"; "rgba(41, 98, 255, 1)",
+    "underLineColor"; "rgba(41, 98, 255, 0.3)",
+    "underLineBottomColor"; "rgba(41, 98, 255, 0)",
+    "isTransparent"; false,
+    "autosize"; false,
+    "largeChartUrl"; ""
+    }
+    </script>
+    </div>
+    <!-- TradingView Widget END</div> -->
+    </div>
+
+
+<!-- End page content -->
+</div>
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>thidsadee xayyasone <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
+</body>
+</html>
